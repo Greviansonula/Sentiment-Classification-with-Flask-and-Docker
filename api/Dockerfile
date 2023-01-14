@@ -1,17 +1,17 @@
-FROM python:3.8
 
-COPY requirements.txt .
+# syntax=docker/dockerfile:1
+FROM python:3.8-slim-buster
 
-RUN  pip install -r requirements.txt
+WORKDIR /api
+
+COPY requirements.txt requirements.txt
+
+RUN  pip3 install -r requirements.txt
 
 RUN python -c "import nltk; nltk.download('omw-1.4'); nltk.download('wordnet')"
-
-RUN pip install Flask
-
-RUN which flask
 
 COPY . .
 
 EXPOSE 5000
 
-CMD ["flask", "run", "host=0.0.0.0" "--port=5000"]
+CMD ["python3", "flask", "run", "host=0.0.0.0" "--port=5000"]
